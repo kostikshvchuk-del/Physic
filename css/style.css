@@ -1,0 +1,1395 @@
+/* ============================================================
+   PROJEKT Z FIZYKI — ARKUSZ STYLÓW
+
+   Wygląd jest celowo prosty i oficjalny: białe tło, ciemny tekst,
+   granatowe akcenty i zwykła czcionka systemowa. Bez ozdób
+   w stylu zeszytu, bez obracanych kartek i bez obrazków.
+
+   Układ pliku:
+   1. zmienne i podstawy,
+   2. układ strony,
+   3. wspólne elementy treści,
+   4. poszczególne strony,
+   5. nawigacja,
+   6. wersja na mniejszy ekran,
+   7. druk.
+   ============================================================ */
+
+
+/* ---------- 1. ZMIENNE I PODSTAWY ---------- */
+
+:root {
+  --bg: #eef1f5;          /* tło poza główną treścią */
+  --paper: #ffffff;       /* tło strony */
+  --text: #1f2937;        /* podstawowy kolor tekstu */
+  --muted: #5b6778;       /* tekst pomocniczy */
+  --line: #d3dae3;        /* zwykłe linie i obramowania */
+  --accent: #1f4e79;      /* granatowy akcent projektu */
+  --accent-soft: #e8f0f8;
+  --green: #2e6b45;
+  --green-bg: #e8f3ec;
+  --red: #a33a32;
+  --red-bg: #fbeeec;
+  --radius: 5px;
+}
+
+/* box-sizing ułatwia liczenie szerokości — padding nie rozpycha elementów. */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Obrazki i rysunki nie wychodzą poza swój kontener. */
+img,
+svg {
+  max-width: 100%;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+/* Widoczna ramka tylko wtedy, gdy ktoś porusza się klawiaturą. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: #cfdff1;
+}
+
+
+/* ---------- 2. UKŁAD STRONY ---------- */
+
+/* Cała strona jest wyśrodkowana i ma ograniczoną szerokość. */
+.desk {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 24px 16px 84px;
+}
+
+.notebook-wrap {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Główny biały blok z treścią. */
+.notebook {
+  background: var(--paper);
+  border: 1px solid #c9d2dc;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(20, 35, 50, 0.06);
+}
+
+/* Górny pasek z nazwą projektu i numerem strony. */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 28px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  font-size: 16px;
+  font-weight: 700;
+  color: #16324f;
+}
+
+.page-counter {
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.page-counter b {
+  color: var(--text);
+}
+
+/* Każda podstrona jest sekcją. JavaScript pokazuje tylko jedną. */
+.page {
+  display: none;
+  padding: 28px 32px 32px;
+}
+
+.page.is-active {
+  display: block;
+}
+
+
+/* ---------- 3. WSPÓLNE ELEMENTY TREŚCI ---------- */
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  color: #16324f;
+  line-height: 1.25;
+}
+
+h1 {
+  margin-bottom: 14px;
+  font-size: clamp(32px, 4.6vw, 44px);
+  font-weight: 700;
+}
+
+/* Druga część tytułu jest mniejsza i spokojniejsza. */
+.title-second {
+  display: block;
+  margin-top: 6px;
+  font-size: clamp(20px, 2.6vw, 26px);
+  font-weight: 400;
+  color: var(--muted);
+}
+
+h2 {
+  font-size: clamp(24px, 3vw, 30px);
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+p {
+  margin: 0 0 12px;
+}
+
+/* Krótki nadtytuł nad nagłówkiem strony. */
+.eyebrow {
+  margin: 0 0 5px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.lead {
+  max-width: 72ch;
+  font-size: 17px;
+  color: #374151;
+}
+
+.page-head {
+  margin-bottom: 22px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* Lekkie podkreślenie ważnego słowa. */
+.mark {
+  background: #fff1b8;
+  padding: 0 2px;
+}
+
+b {
+  font-weight: 600;
+}
+
+.small-note {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+/* Dwie kolumny na tekst i rysunek. */
+.two-col {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.col-text {
+  min-width: 0;
+}
+
+/* Karty z definicjami. */
+.def-card {
+  margin-top: 14px;
+  padding: 13px 16px;
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.def-label {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.def-card p {
+  margin: 0;
+  font-size: 15px;
+}
+
+/* Ważna uwaga na marginesie — zwykły kolorowy blok, bez odręcznego pisma. */
+.red-note {
+  max-width: 70ch;
+  margin-top: 18px;
+  padding: 10px 14px;
+  background: var(--red-bg);
+  border-left: 3px solid var(--red);
+  border-radius: 0 4px 4px 0;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: #7a2f28;
+}
+
+.example-line {
+  max-width: 90ch;
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  font-size: 14.5px;
+  color: #374151;
+}
+
+.example-line b {
+  color: var(--accent);
+}
+
+/* Wspólna ramka na rysunki SVG. */
+.diagram-card {
+  margin: 0;
+  padding: 14px 14px 10px;
+  background: #fbfcfd;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.diagram-card svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.diagram-card figcaption {
+  margin-top: 8px;
+  font-size: 12.5px;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* Bardzo delikatna siatka w rysunkach — tylko pomocniczo. */
+.svg-grid path {
+  stroke: #7c8b9c;
+  stroke-width: 1;
+  opacity: 0.12;
+  fill: none;
+}
+
+.svg-hand {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  fill: #33475b;
+}
+
+.svg-blue {
+  fill: var(--accent);
+}
+
+.svg-red {
+  fill: var(--red);
+}
+
+/* Strzałka przemieszczenia jest od razu widoczna, bez animacji. */
+.displacement-line {
+  stroke-dashoffset: 0;
+}
+
+/* Przyciski w prostym, oficjalnym stylu. */
+.btn {
+  display: inline-block;
+  padding: 7px 14px;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #ffffff;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #163e61;
+  border-color: #163e61;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-small {
+  padding: 4px 10px;
+  font-size: 13px;
+}
+
+
+/* ---------- 4. POSZCZEGÓLNE STRONY ---------- */
+
+/* ===== STRONA 1: okładka ===== */
+
+.title-grid {
+  max-width: 760px;
+  padding: 18px 0 8px;
+}
+
+/* Krótka granatowa kreska nad tytułem. */
+.title-copy {
+  border-top: 3px solid var(--accent);
+  padding-top: 18px;
+}
+
+.author-line {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin-top: 26px;
+  padding-top: 13px;
+  border-top: 1px solid var(--line);
+}
+
+.author-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.author-line strong {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.author-date {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.hint {
+  margin-top: 18px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ===== STRONA 3: prędkość średnia ===== */
+
+.formula-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 28px;
+  margin: 0 0 22px;
+  padding: 14px 16px;
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.formula {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.formula sub {
+  font-size: 12px;
+  vertical-align: -0.25em;
+}
+
+/* Ułamek zbudowany z dwóch linii tekstu i kreski. */
+.frac {
+  display: inline-flex;
+  flex-direction: column;
+  margin: 0 2px;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.frac-top {
+  padding: 0 6px 2px;
+  border-bottom: 2px solid currentColor;
+}
+
+.frac-bottom {
+  padding: 2px 6px 0;
+}
+
+.small-frac {
+  font-size: 0.82em;
+}
+
+.formula-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+
+.formula-legend b {
+  color: var(--text);
+}
+
+/* Karta z przykładem. */
+.example-card {
+  padding: 18px;
+  background: #fbfcfd;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.card-tab {
+  display: inline-block;
+  margin-bottom: 9px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 3px;
+}
+
+.task {
+  max-width: 54ch;
+  margin-bottom: 12px;
+  font-size: 14.5px;
+}
+
+.calc-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 16.5px;
+}
+
+.calc-result {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3px;
+  font-weight: 600;
+}
+
+.calc-result b {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.calc-lines .small-frac {
+  font-size: 0.78em;
+}
+
+.example-card .small-note {
+  margin: 10px 0 0;
+}
+
+/* Kalkulator. */
+.calculator {
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.calculator h3 {
+  margin-bottom: 2px;
+}
+
+.calculator label {
+  display: block;
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.calculator input {
+  display: block;
+  width: 100%;
+  margin-top: 3px;
+  padding: 6px 8px;
+  font-size: 15px;
+  color: var(--text);
+  background: #ffffff;
+  border: 1px solid #b7c2cf;
+  border-radius: 3px;
+}
+
+.calculator input:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(31, 78, 121, 0.14);
+}
+
+.calculator .btn {
+  margin-top: 12px;
+}
+
+.calc-output {
+  min-height: 22px;
+  margin: 10px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  font-size: 13.5px;
+  color: var(--muted);
+}
+
+.calc-output.is-ok {
+  color: var(--green);
+}
+
+.calc-output.is-error {
+  color: var(--red);
+}
+
+.calc-output b {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.units-note {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.units-note b {
+  color: var(--text);
+}
+
+/* ===== STRONA 4: prędkość chwilowa ===== */
+
+.notebook-quote {
+  margin-bottom: 16px;
+  padding: 10px 14px;
+  background: #f2f6fb;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+}
+
+.notebook-quote p {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.notebook-quote sub {
+  font-size: 11px;
+}
+
+.notebook-quote span {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.mini-card {
+  padding: 10px 12px;
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.mini-label {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.mini-card b {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.mini-card em {
+  display: block;
+  margin-top: 2px;
+  font-size: 13px;
+  font-style: normal;
+  color: var(--accent);
+}
+
+.mini-card-pink {
+  background: #fdf3f1;
+}
+
+.mini-card-pink em {
+  color: var(--red);
+}
+
+.mini-card-green {
+  background: #f1f7f3;
+}
+
+.mini-card-green em {
+  color: var(--green);
+}
+
+.speedo-card {
+  padding: 14px;
+  background: #fbfcfd;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.scrawl {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.speedo {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+/* Igła obraca się wokół środka tarczy (170, 170). */
+.speed-needle {
+  transform-box: view-box;
+  transform-origin: 170px 170px;
+}
+
+.speed-ticks line {
+  stroke: #33475b;
+  opacity: 0.6;
+}
+
+.speed-ticks text {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  fill: var(--muted);
+  text-anchor: middle;
+}
+
+.speed-value {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  fill: var(--text);
+}
+
+.speed-unit {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  fill: var(--muted);
+}
+
+.speedo-card input[type="range"] {
+  width: 100%;
+  margin-top: 8px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.speed-legend {
+  display: flex;
+  justify-content: space-between;
+  max-width: 300px;
+  margin: 2px auto 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ===== STRONA 5: wektory ===== */
+
+.definition {
+  margin: 16px 0;
+  padding: 10px 14px;
+  background: #f8fafc;
+  border-left: 3px solid var(--accent);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+/* Strzałka nad literą, np. wektor a albo F. */
+.vec {
+  position: relative;
+  display: inline-block;
+  padding: 0 0.08em;
+  font-style: italic;
+  font-weight: 600;
+}
+
+.vec::after {
+  content: "→";
+  position: absolute;
+  left: 50%;
+  top: -0.72em;
+  transform: translateX(-50%);
+  font-size: 0.66em;
+  font-style: normal;
+  line-height: 1;
+}
+
+.vector-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vector-list li {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 8px;
+  align-items: start;
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
+.vector-list .num {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin-top: 1px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  background: #ffffff;
+  border: 1px solid #b7c2cf;
+  border-radius: 50%;
+}
+
+.vector-list b {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.sticky-note {
+  max-width: 430px;
+  margin-top: 18px;
+  padding: 12px 14px;
+  background: #fff9dd;
+  border: 1px solid #e2cf8a;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* ===== STRONA 6: I zasada dynamiki ===== */
+
+.quote-card {
+  margin: 0 0 22px;
+  padding: 16px 20px;
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+}
+
+.quote-card p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.quote-card cite {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  font-style: normal;
+  text-align: right;
+  color: var(--muted);
+}
+
+/* Cudzysłów z HTML nie jest potrzebny w prostym układzie. */
+.quote-mark {
+  display: none;
+}
+
+.compare-two {
+  margin-top: 14px;
+}
+
+.force-demo {
+  padding: 14px;
+  background: #fbfcfd;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.force-demo h3 {
+  margin-bottom: 2px;
+}
+
+.force-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 4px;
+  overflow: visible;
+}
+
+.force-label {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.force-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+  margin-top: 2px;
+}
+
+.force-controls label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.force-controls output {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.force-controls input[type="range"] {
+  display: block;
+  width: 100%;
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+#leftForce {
+  accent-color: var(--accent);
+}
+
+#rightForce {
+  accent-color: var(--red);
+}
+
+.verdict {
+  margin: 10px 0 8px;
+  padding: 8px 10px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  border-left: 3px solid transparent;
+  border-radius: 0 3px 3px 0;
+}
+
+.verdict.balanced {
+  color: #285c3d;
+  background: var(--green-bg);
+  border-left-color: var(--green);
+}
+
+.verdict.unbalanced {
+  color: #7a2f28;
+  background: var(--red-bg);
+  border-left-color: var(--red);
+}
+
+.preset-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* ===== STRONA 7: quiz ===== */
+
+.quiz-intro {
+  margin-bottom: 12px;
+  font-size: 14.5px;
+  color: var(--muted);
+}
+
+.quiz-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.question {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.q-text {
+  margin: 0 0 8px;
+  font-size: 14.5px;
+  line-height: 1.45;
+}
+
+.q-text span {
+  margin-right: 2px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.answers {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.answer {
+  width: 100%;
+  padding: 6px 9px;
+  font-size: 13.5px;
+  line-height: 1.35;
+  text-align: left;
+  color: var(--text);
+  background: #f8fafc;
+  border: 1px solid #c9d2dc;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.answer:hover:not(:disabled) {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+.answer:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+.answer.correct {
+  color: #285c3d;
+  background: var(--green-bg);
+  border-color: var(--green);
+}
+
+.answer.wrong {
+  color: #7a2f28;
+  background: var(--red-bg);
+  border-color: var(--red);
+}
+
+.feedback {
+  min-height: 18px;
+  margin: 5px 0 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.feedback.good {
+  color: var(--green);
+}
+
+.feedback.bad {
+  color: var(--red);
+}
+
+.score-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 520px;
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.score-label {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+#score {
+  display: block;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #16324f;
+}
+
+#scoreNote {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ===== STRONA 8: koniec ===== */
+
+.final-grid {
+  max-width: 760px;
+  padding-top: 6px;
+}
+
+.final-grid h2 {
+  margin-bottom: 10px;
+  font-size: clamp(30px, 4vw, 38px);
+}
+
+.summary-list {
+  display: grid;
+  gap: 7px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.summary-list li {
+  position: relative;
+  padding-left: 24px;
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
+.summary-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 700;
+  color: var(--green);
+}
+
+.thanks {
+  margin: 24px 0 4px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.author-small {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.sources {
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+
+/* ---------- 5. NAWIGACJA ---------- */
+
+/* Poziome menu nad treścią. */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  line-height: 1.2;
+  color: #33475b;
+  background: #ffffff;
+  border: 1px solid #cbd4de;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tab span {
+  font-size: 11px;
+  color: #7a8798;
+}
+
+.tab:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.tab.is-active {
+  color: #ffffff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.tab.is-active span {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* Dolny pasek z kropkami. */
+.pager {
+  position: fixed;
+  z-index: 20;
+  left: 50%;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: #ffffff;
+  border: 1px solid #cbd4de;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(20, 35, 50, 0.1);
+  transform: translateX(-50%);
+}
+
+.pager-btn {
+  width: 30px;
+  height: 28px;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+  color: #33475b;
+  background: transparent;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.pager-btn:hover {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid #91a0b2;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.dot:hover {
+  border-color: var(--accent);
+}
+
+.dot.is-active {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+
+/* ---------- 6. WERSJA NA MNIEJSZY EKRAN ---------- */
+
+@media (max-width: 900px) {
+  .desk {
+    padding: 12px 10px 80px;
+  }
+
+  .topbar {
+    padding: 12px 20px;
+  }
+
+  .page {
+    padding: 22px 20px 26px;
+  }
+
+  .title-grid {
+    padding-top: 6px;
+  }
+
+  .two-col,
+  .quiz-grid,
+  .compare,
+  .force-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .tabs {
+    gap: 4px;
+  }
+
+  .tab {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+
+  .pager {
+    bottom: 8px;
+  }
+}
+
+@media (max-width: 560px) {
+  body {
+    font-size: 15px;
+  }
+
+  .desk {
+    padding: 8px 6px 76px;
+  }
+
+  .topbar {
+    padding: 10px 14px;
+  }
+
+  .brand {
+    font-size: 15px;
+  }
+
+  .page-counter {
+    font-size: 12px;
+  }
+
+  .page {
+    padding: 18px 14px 22px;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  .title-second {
+    font-size: 20px;
+  }
+
+  h2 {
+    font-size: 23px;
+  }
+
+  .lead {
+    font-size: 15.5px;
+  }
+
+  .formula {
+    font-size: 25px;
+  }
+
+  .calc-lines {
+    font-size: 15.5px;
+  }
+
+  .author-line {
+    gap: 2px 8px;
+  }
+
+  .author-date {
+    width: 100%;
+  }
+
+  .tabs {
+    gap: 4px;
+  }
+
+  .tab {
+    font-size: 11.5px;
+  }
+
+  .tab span {
+    display: none;
+  }
+
+  .score-card {
+    max-width: none;
+  }
+
+  .thanks {
+    font-size: 21px;
+  }
+}
+
+
+/* ---------- 7. DRUK ---------- */
+
+/* Po wydruku widać wszystkie strony po kolei, bez menu i nawigacji. */
+@media print {
+  body {
+    background: #ffffff;
+  }
+
+  .desk {
+    max-width: none;
+    padding: 0;
+  }
+
+  .notebook {
+    border: none;
+    box-shadow: none;
+  }
+
+  .tabs,
+  .pager {
+    display: none !important;
+  }
+
+  .topbar {
+    padding: 0 0 10px;
+  }
+
+  .page {
+    display: block !important;
+    padding: 18px 0;
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .page:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .btn {
+    color: #000000;
+    background: #ffffff;
+    border: 1px solid #000000;
+  }
+}
