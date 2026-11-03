@@ -1229,6 +1229,39 @@ b {
 }
 
 
+/* ---------- KOLESO FORTUNY (strona start) ---------- */
+
+.fortune-card {
+  margin-top: 22px;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.fortune-card h3 {
+  margin-bottom: 2px;
+}
+
+.fortune-list {
+  margin: 8px 0 14px;
+  padding-left: 26px;
+  font-size: 15px;
+  line-height: 2;
+  color: #374151;
+}
+
+.fortune-result {
+  min-height: 22px;
+  margin: 10px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+
 /* ---------- 6. WERSJA NA MNIEJSZY EKRAN ---------- */
 
 @media (max-width: 900px) {

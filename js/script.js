@@ -514,6 +514,28 @@ function uruchomQuiz() {
 
 
 /* ------------------------------------------------------------
+   5. KOLESO FORTUNY
+   ------------------------------------------------------------ */
+function uruchomFortuny() {
+  const przycisk = document.getElementById('fortuneBtn');
+  const wynik = document.getElementById('fortuneResult');
+  const lista = document.getElementById('fortuneList');
+
+  if (!przycisk || !wynik || !lista) return;
+
+  const nazwiska = Array.from(lista.querySelectorAll('li')).map(function (element) {
+    return element.textContent.trim();
+  });
+
+  przycisk.addEventListener('click', function () {
+    // Losowanie z listy czytelników.
+    const wylosowane = nazwiska[Math.floor(Math.random() * nazwiska.length)];
+    wynik.textContent = 'Kto dziś czyta: ' + wylosowane;
+  });
+}
+
+
+/* ------------------------------------------------------------
    START
    ------------------------------------------------------------ */
 
@@ -526,6 +548,7 @@ if (document.readyState === 'loading') {
     uruchomPredkosciomierz();
     uruchomPokazSil();
     uruchomQuiz();
+    uruchomFortuny();
   });
 } else {
   uruchomNawigacje();
@@ -533,4 +556,5 @@ if (document.readyState === 'loading') {
   uruchomPredkosciomierz();
   uruchomPokazSil();
   uruchomQuiz();
+  uruchomFortuny();
 }
