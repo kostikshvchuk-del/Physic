@@ -530,7 +530,7 @@ function uruchomFortuny() {
   przycisk.addEventListener('click', function () {
     // Losowanie z listy czytelników.
     const wylosowane = nazwiska[Math.floor(Math.random() * nazwiska.length)];
-    wynik.textContent = 'Kto dziś czyta: ' + wylosowane;
+    wynik.textContent = 'Kto dziś będzie czytał: ' + wylosowane;
   });
 }
 
